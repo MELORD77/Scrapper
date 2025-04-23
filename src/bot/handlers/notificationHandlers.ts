@@ -13,9 +13,8 @@ export async function checkNewAds(category: string, bot: Telegraf) {
     const newAds = findNewAds(category, ads);
     
     if (newAds.length > 0) {
-      console.log(`${category} uchun ${newAds.length} ta yangi e'lon topildi`);
-      
-      // Kategoriyaga obuna bo'lgan foydalanuvchilarga xabar yuborish
+
+
       const users = storageService.getWatchList().users;
       for (const [userId, categories] of Object.entries(users)) {
         if (categories.includes(category)) {
@@ -27,7 +26,7 @@ export async function checkNewAds(category: string, bot: Telegraf) {
             );
             
       
-            for (const item of newAds.slice(0, 5)) {
+            for (const item of newAds.slice(0, 15)) {
               try {
                 await bot.telegram.sendPhoto(
                   userId,
@@ -40,7 +39,7 @@ export async function checkNewAds(category: string, bot: Telegraf) {
                     ]).reply_markup
                   }
                 );
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                await new Promise(resolve => setTimeout(resolve, 100));
               } catch (e) {
                 console.error(`${userId} ga xabar yuborishda xato:`, e);
               }

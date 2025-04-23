@@ -17,7 +17,7 @@ class OLXScraper {
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
   
     const allItems: AdItem[] = [];
-    let totalPages =  1; // fallback agar pagination topilmasa
+    let totalPages =  5; 
 
 
   
@@ -28,11 +28,11 @@ class OLXScraper {
       }
   
       console.log(`Navigating to: ${url}`);
-      await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+      await page.goto(url, { waitUntil: 'networkidle2', timeout: 90000 });
   
       if (pageNumber === 1) {
         try {
-          await page.waitForSelector('button[data-testid="accept-cookies-button"]', { timeout: 3000 });
+          await page.waitForSelector('button[data-testid="accept-cookies-button"]', { timeout: 1000 });
           await page.click('button[data-testid="accept-cookies-button"]');
           await page.waitForTimeout(2000);
         } catch (e) {
@@ -42,11 +42,10 @@ class OLXScraper {
   
       await this.autoScroll(page);
   
-      console.log(`Collecting data from page ${pageNumber}...`);
+     
       const items = await page.evaluate(() => {
         const results: AdItem[] = [];
         const ads = document.querySelectorAll('[data-cy="l-card"]');
-    
         ads.forEach(item => {
           const price = item.querySelector('[data-testid="ad-price"]')?.textContent?.trim() || 'Narx ko\'rsatilmagan';
           const location = item.querySelector('[data-testid="location-date"]')?.textContent?.trim() || 'Manzil ko\'rsatilmagan';
@@ -54,13 +53,13 @@ class OLXScraper {
           const title = link.split('/').pop()?.split('.')[0] || 'Noma\'lum';
           const image = item.querySelector('img')?.src || 'https://via.placeholder.com/150';
           const id = link.split('/').pop()?.split('.')[0] || Math.random().toString(36).substring(7);
-  
+          
           results.push({ id, title, price, location, link, image });
         });
-  
+        
         return results;
       });
-  
+      
       if (items.length === 0) {
         console.log(`No more items found on page ${pageNumber}. Stopping.`);
         break;

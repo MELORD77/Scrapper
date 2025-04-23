@@ -174,7 +174,7 @@ async function checkNewAds(category) {
               try {
                 await bot.telegram.sendPhoto(
                   userId,
-                  { url: item.image },
+                  { url: item.image || "" },
                   {
                     caption: `📌 <b>${item.title}</b>\n💵 ${item.price}\n📍 ${item.location}\n🔗 <a href="${item.link}">OLXda ko'rish</a>`,
                     parse_mode: 'HTML',

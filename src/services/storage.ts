@@ -58,9 +58,12 @@ class StorageService {
   }
 
   updateLastAds(category: string, ads: AdItem[]): void {
-console.log(`Updating last ads for category: ${category}`,ads.length);
+    if (!this.watchList.lastAds[category]) {
+      this.watchList.lastAds[category] = [];
+    }
     this.watchList.lastAds[category] = ads.slice(0, 20);
   }
+  
 }
 
 export const storageService = new StorageService();
