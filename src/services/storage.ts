@@ -27,6 +27,8 @@ class StorageService {
 
   async saveData(): Promise<void> {
     try {
+      console.log(this.watchList, 'watchList');
+      
       await fs.writeFile(DATA_FILE, JSON.stringify(this.watchList, null, 2), 'utf8');
       console.log('Data saved successfully');
     } catch (error) {
@@ -61,7 +63,7 @@ class StorageService {
     if (!this.watchList.lastAds[category]) {
       this.watchList.lastAds[category] = [];
     }
-    this.watchList.lastAds[category] = ads.slice(0, 20);
+    this.watchList.lastAds[category] = ads;
   }
   
 }

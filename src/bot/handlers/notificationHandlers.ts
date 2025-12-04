@@ -50,7 +50,6 @@ export async function checkNewAds(category: string, bot: Telegraf) {
         }
       }
       
-      // So'nggi e'lonlar ro'yxatini yangilash
       storageService.updateLastAds(category, ads.slice(0, 20));
       await storageService.saveData();
     } else {

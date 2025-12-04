@@ -5,6 +5,7 @@ export interface AdItem {
     location: string;
     link: string;
     image: string;
+    createdAt?: string;
   }
   
   export interface WatchList {

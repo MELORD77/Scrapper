@@ -50,7 +50,7 @@ export function setupInlineHandlers(bot: Telegraf) {
 
     try {
       const items = await olxScraper.scrapeOLX(category, maxPrice > 0 ? maxPrice : null);
-
+        console.log(items, 'items');
       await ctx.deleteMessage(loadingMsg.message_id);
       if (items.length === 0) {
         return ctx.reply('Hech qanday natija topilmadi. Qidiruv so\'rovini o\'zgartirib ko\'ring.');
